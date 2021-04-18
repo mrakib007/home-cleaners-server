@@ -61,11 +61,43 @@ app.post('/review',(req,res)=>{
     res.send(result.insertedCount > 0);
 });
 })
+
+app.post('/book',(req,res)=>{
+  const name = req.body.name;
+  const email = req.body.email;
+  const price = req.body.price;
+
+    bookingCollection.insertOne({ name,email,price }).then((result) => {
+    res.send(result.insertedCount > 0);
+});
+});
+
+app.get('/book',(req,res)=>{
+  bookingCollection.find()
+  .toArray((err,items)=>{
+    res.send(items);
+  })
+})
+
 app.get('/review', (req, res) => {
   reviewCollection.find({}).toArray((err, documents) => {
       res.send(documents);
   });
 });
+
+app.get('/admin', (req, res) => {
+  adminCollection.find({email: req.query.email})
+  .toArray((err,documents)=>{
+    res.send(documents);
+  })
+});
+
+app.get('/deals',(req,res)=>{
+  bookingCollection.find({email: req.query.email})
+  .toArray((err,documents)=>{
+    res.send(documents);
+  })
+})
 
 
 app.get('/services', (req, res) => {
