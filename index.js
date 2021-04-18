@@ -85,12 +85,28 @@ app.get('/review', (req, res) => {
   });
 });
 
-app.get('/admin', (req, res) => {
-  adminCollection.find({email: req.query.email})
-  .toArray((err,documents)=>{
-    res.send(documents);
+// app.get('/admin', (req, res) => {
+//   console.log(req.query.email);
+//   // adminCollection.find({email: req.query.email})
+//   // .toArray((err,documents)=>{
+//   //   res.send(documents);
+//   // })
+//   const email = req.body.email;
+//   adminCollection.find({email:email})
+//   .toArray((err,documents)=>{
+//     if(documents.length ==0){
+//     filter.email = email;
+//     }
+//   })
+// });
+
+app.post('/isAdmin',(req,res)=>{
+  const email = req.body.email;
+  adminCollection.find({email:email})
+  .toArray((err,admin)=>{
+    res.send(admin.length>0);
   })
-});
+})
 
 app.get('/deals',(req,res)=>{
   bookingCollection.find({email: req.query.email})
